@@ -10,6 +10,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type fact struct{
+  ID  int `json:"ID"`
+  Description string `json:"Description"`
+}
+
 type user struct {
 	ID       string `json:"ID"`
 	UserName string `json:"UserName"`
@@ -30,6 +35,7 @@ type round struct {
 
 type allUsers []user
 type allRounds []round
+type allFacts []fact
 
 var users = allUsers{
 	{
@@ -22647,6 +22653,48 @@ var seasonOneIDs = allRounds{
   },
 }
 
+var facts = allFacts{
+  {
+		ID:	1,
+		Description: "Alex Trebek changes suits five times a day.",
+  },
+  {
+		ID:	2,
+		Description: "The record for most consecutive games won is 74.",
+  },
+  {
+		ID:	3,
+		Description: "Trebek used to read news before he read categories.",
+  },
+  {
+		ID:	4,
+		Description: "Jeopardy! has won more awards than any other game show in the U.S.",
+  },
+  {
+		ID:	5,
+		Description: "It has a sister game show.",
+  },
+  {
+		ID:	6,
+		Description: "The show's theme song was supposed to be a lullaby.",
+  },
+  {
+		ID:	7,
+		Description: "Trebek's biggest fan is himself.",
+  },
+  {
+		ID:	8,
+		Description: "Writing a New York Times Bestseller is easier than making it onto the show.",
+  },
+  {
+		ID:	9,
+		Description: "The most common category is Before and After.",
+  },
+  {
+		ID:	10,
+		Description: "Trebek gets a kick out of testy players, literally.",
+	},
+}
 
 func homeLink(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome home!")
@@ -22683,6 +22731,11 @@ func getAllUsers(w http.ResponseWriter, r *http.Request) {
 func getAllSeasonOneIDs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(seasonOneIDs)
+}
+
+func getAllFacts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(facts)
 }
 
 func updateUser(w http.ResponseWriter, r *http.Request) {
@@ -22724,6 +22777,7 @@ func main() {
 	router.HandleFunc("/users/{id}", getOneUser).Methods("GET")
 	router.HandleFunc("/users/{id}", updateUser).Methods("PATCH")
 	router.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
-	router.HandleFunc("/seasonOne", getAllSeasonOneIDs).Methods("GET")
+  router.HandleFunc("/seasonOne", getAllSeasonOneIDs).Methods("GET")
+	router.HandleFunc("/facts", getAllFacts).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
