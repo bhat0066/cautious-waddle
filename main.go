@@ -22779,5 +22779,5 @@ func main() {
 	router.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
   router.HandleFunc("/seasonOne", getAllSeasonOneIDs).Methods("GET")
 	router.HandleFunc("/facts", getAllFacts).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":80", router))
 }
